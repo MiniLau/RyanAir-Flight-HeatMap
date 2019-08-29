@@ -1,0 +1,5 @@
+# Dependencies
+Pipfile.lock
+
+# Script dependent files
+src/frontend/dynamic/
