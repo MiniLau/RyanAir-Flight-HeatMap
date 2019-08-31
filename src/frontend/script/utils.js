@@ -32,11 +32,3 @@ function refresh_map() {
 function remove_ad() {
   $("div[id='map_inner'] > div > svg").remove();
 }
-
-
-function initialize(airports, cheapest_per_country) {
-  reachable_countries = get_reachable_countries(airports);
-  disable_unreachable_countries(reachable_countries);
-  adapt_reachable_countries_description(cheapest_per_country);
-  render_locations_description(airports);
-}

@@ -96,9 +96,7 @@ var simplemaps_worldmap_mapdata={
       name: "Burundi"
     },
     BE: {
-      name: "Belgium",
-      color: "gray", hover_color: "gray",
-      zoomable: "no"
+      name: "Belgium"
     },
     BJ: {
       name: "Benin"
