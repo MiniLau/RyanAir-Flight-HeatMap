@@ -1,8 +1,8 @@
-import json, os
+import json
 
 
 
-def _json_to_javascript(path, variable_name, dic):
+def json_to_javascript(path, variable_name, dic):
     with open(path, 'w') as f:
         content = 'var {} = JSON.parse(\'{}\');'.format(variable_name, json.dumps(dic))
         f.write(content)
@@ -46,30 +46,3 @@ def format_cheapest_per_country(cheapest_per_country):
     for country, trip in cheapest_per_country.items():
         formatted[country.countryCode] = { 'price': trip.price }
     return formatted
-
-
-
-if __name__ == '__main__':
-    from ryanair import get_stations_info, get_all_routes, get_route_prices
-    from models.Plan import Plan
-    from datetime import datetime, timedelta
-
-    print('Downloading necessary information !')
-    countries, airports = get_stations_info()
-    countries, airports = get_all_routes(countries, airports)
-
-    print('Searching for cheapest flights !')
-    plan = Plan(countries, datetime.now() + timedelta(days=20), 2, datetime.now() + timedelta(days=30), 2)
-    for airport in countries['BE'].airports:
-        if len(airport.routes) > 0:
-            print('Looking at {} routes from airport: {} !'.format(len(airport.routes), airport))
-        else:
-            print('There are no routes from airport: {} !'.format(airport))
-        for route in airport.routes:
-            get_route_prices(plan, route)
-
-    print('Post processing information !')
-    airports_locations = format_airports_to_locations(plan.sorted_trips, plan.cheapest_per_airport)
-    cheapest_per_country = format_cheapest_per_country(plan.cheapest_per_country)
-    _json_to_javascript('src/frontend/dynamic/airports.js', 'airports', airports_locations)
-    _json_to_javascript('src/frontend/dynamic/cheapest_per_country.js', 'cheapest_per_country', cheapest_per_country)
