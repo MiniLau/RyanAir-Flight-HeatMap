@@ -1,7 +1,10 @@
+from datetime import datetime
+
+
 class Flight:
-    def __init__(self, route, date, price):
+    def __init__(self, route, date_str, price):
         self.route = route
-        self.date = date
+        self.date = datetime.strptime(date_str, '%Y-%m-%d')
         self.price = price
 
 

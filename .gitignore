@@ -1,5 +1,8 @@
 # Dependencies
 Pipfile.lock
 
+# Python files
+__pycache__/
+
 # Script dependent files
 src/frontend/dynamic/

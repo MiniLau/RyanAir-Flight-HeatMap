@@ -18,3 +18,9 @@ class Airport:
 
     def __repr__(self):
         return '{} ({})'.format(self.name, self.country)
+
+    def __eq__(self, other):
+        return self.iataCode == other.iataCode
+
+    def __hash__(self):
+        return hash(self.iataCode)

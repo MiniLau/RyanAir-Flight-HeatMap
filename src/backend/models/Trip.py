@@ -6,10 +6,10 @@ class Trip:
 
     @property
     def price(self):
-        return self.outbound_flight.price + self.return_flight.price
+        return round(self.outbound_flight.price + self.return_flight.price, 2)
     @property
     def duration(self):
-        return (self.outbound_flight.date - self.return_flight.date).days
+        return (self.return_flight.date - self.outbound_flight.date).days
 
 
     @property
@@ -28,6 +28,4 @@ class Trip:
 
 
     def __repr__(self):
-        return '{} --> {} | {}€ | {}'.format(self.outbound_flight.date,
-                self.return_flight.date, self.price,
-                self.outbound_flight.route)
+        return '({} days) | {}€ | From: {}'.format(self.duration, self.price, self.orgigin_airport)

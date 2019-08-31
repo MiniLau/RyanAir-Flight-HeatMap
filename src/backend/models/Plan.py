@@ -11,16 +11,25 @@ class Plan:
         self._inboundDateTo = end_date + timedelta(days=end_offset)
 
         self.cheapest_per_country = {}
+        self.cheapest_per_airport = {}
         self.trips = []
 
 
     def add_trip(self, trip):
-        dest_countryCode = trip.destination_country.countryCode
-        if dest_countryCode not in self.cheapest_per_country or \
-                trip.price < self.cheapest_per_country[dest_countryCode].price:
-            self.cheapest_per_country[dest_countryCode] = trip
-
+        self._check_cheapest_per_country(trip)
+        self._check_cheapest_per_airport(trip)
         self.trips.append(trip)
+
+    def _check_cheapest_per_country(self, trip):
+        destination = trip.destination_country
+        if destination not in self.cheapest_per_country or \
+                trip.price < self.cheapest_per_country[destination].price:
+            self.cheapest_per_country[destination] = trip
+    def _check_cheapest_per_airport(self, trip):
+        destination = trip.destination_airport
+        if destination not in self.cheapest_per_airport or \
+                trip.price < self.cheapest_per_airport[destination].price:
+            self.cheapest_per_airport[destination] = trip
 
 
     @property
@@ -35,3 +44,7 @@ class Plan:
     @property
     def inboundDateTo(self):
         return self._inboundDateTo.strftime('%Y-%m-%d')
+
+    @property
+    def sorted_trips(self):
+        return sorted(self.trips, key=lambda t: t.price)
