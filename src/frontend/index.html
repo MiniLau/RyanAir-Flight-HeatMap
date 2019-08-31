@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>RyanAir Flight HeatMap</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="dynamic/airports.js"></script>
+		<script src="dynamic/cheapest_per_country.js"></script>
+
+		<script src="script/map/mapdata.js"></script>
+		<script src="script/map/worldmap.js"></script>
+
+		<script src="script/table.js"></script>
+		<script src="script/initialization.js"></script>
+		<script src="script/utils.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+  </head>
+	<body>
+		<div>
+			<h1>RyanAir Flight HeatMap</h1>
+			<div id="map"></div>
+		</div>
+
+		<script>
+			current_countryCode = '';
+			simplemaps_worldmap.hooks.ready = function (){
+				simplemaps_worldmap_mapdata.locations = airports;
+				initialize(airports, cheapest_per_country);
+			  simplemaps_worldmap.load();
+			}
+
+			simplemaps_worldmap.hooks.complete = function() {
+				remove_ad();
+			}
+
+			simplemaps_worldmap.hooks.back = function() {
+				show_country_popup(current_countryCode);
+				exclusive_show_country_airports('');
+			  refresh_map();
+			}
+
+			simplemaps_worldmap.hooks.zoomable_click_state = function(id) {
+				hide_country_popup(current_countryCode, id);
+				exclusive_show_country_airports(id);
+
+			  refresh_map();
+			  current_countryCode = id;
+			};
+			simplemaps_worldmap.hooks.zoomable_click_region = function(id) {
+				hide_country_popup(current_countryCode, '');
+				exclusive_show_country_airports(id);
+
+			  refresh_map();
+			}
+		</script>
+	</body>
+</html>
